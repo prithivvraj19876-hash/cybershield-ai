@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberShield AI - Security Operations Command (SOC) Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Futuristic Themes Graphics -->
+  <canvas id="bg-particles-canvas"></canvas>
+  <div class="cyber-bg"></div>
+  <div class="scanlines"></div>
+  
+  <!-- System Notifications Toast Target -->
+  <div id="toast-container"></div>
+
+  <!-- STAGE 1: Secure Pre-Login Gate Overlay (MFA) -->
+  <section id="login-screen">
+    <div class="login-card">
+      <div class="login-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00f0ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <circle cx="12" cy="11" r="3"/>
+          <path d="M12 2v20"/>
+          <path d="M17 12a5 5 0 0 1-10 0"/>
+        </svg>
+      </div>
+      <h2 class="login-title">CyberShield AI</h2>
+      <p class="login-subtitle">SECURE GATEWAY ENFORCED</p>
+      
+      <div class="login-form-group">
+        <label class="login-label">MFA Authentication Code</label>
+        <p style="font-size:11px; margin-bottom:12px; color:var(--text-secondary);">Enter code to establish secure bridge session [Try: 1337 or 7777]</p>
+        <div class="mfa-digits-container">
+          <input type="text" maxlength="1" class="mfa-input" pattern="[0-9]*" inputmode="numeric" autofocus>
+          <input type="text" maxlength="1" class="mfa-input" pattern="[0-9]*" inputmode="numeric">
+          <input type="text" maxlength="1" class="mfa-input" pattern="[0-9]*" inputmode="numeric">
+          <input type="text" maxlength="1" class="mfa-input" pattern="[0-9]*" inputmode="numeric">
+        </div>
+      </div>
+      
+      <button class="login-btn" id="login-btn">Verify Credentials</button>
+      <div class="error-msg" id="login-error"></div>
+    </div>
+  </section>
+
+  <!-- STAGE 2: Master Dashboard Command Center Layout -->
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="brand-section">
+        <svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span class="brand-name">CYBERSHIELD AI</span>
+      </div>
+
+      <ul class="nav-links">
+        <li class="nav-item active"><a class="nav-link" data-tab="home"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg><span class="nav-span">AI Security Dashboard</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-tab="network"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg><span class="nav-span">AI Network Monitoring</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-tab="threats"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg><span class="nav-span">AI Threat Detection</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-tab="endpoints"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg><span class="nav-span">Endpoint Protection</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-tab="identity"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span class="nav-span">Identity & Access Security</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-tab="cybercommand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 2v20"/></svg><span class="nav-span">Cyber Command Bridge</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-tab="automations"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.1a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span class="nav-span">Automation Center</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-tab="intelligence"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg><span class="nav-span">Global Intelligence</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-tab="reports"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg><span class="nav-span">AI Report Generator</span></a></li>
+      </ul>
+
+      <!-- Bottom Status -->
+      <div class="system-status-indicator">
+        <div class="status-row">
+          <span class="status-label">Network Status</span>
+          <span class="status-value"><span class="led led-active"></span>ONLINE</span>
+        </div>
+        <div class="status-row">
+          <span class="status-label">Model Engine</span>
+          <span class="status-value" style="color:var(--neon-green)">ACTIVE</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Container -->
+    <main class="main-content">
+      
+      <!-- Top command bar headers -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="toggle-sidebar-btn" id="toggle-sidebar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          </button>
+          <div class="command-center-title">
+            <h1 id="primary-title">CyberShield SOC Command Center</h1>
+            <p id="subtitle-label">SYSTEM STATUS: NORMAL</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          
+          <!-- Sound toggles -->
+          <button class="control-btn" id="sound-toggle" title="Toggle Synth sound effects">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume-2"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+          </button>
+
+          <!-- Voice assistant microphone button -->
+          <button class="control-btn" id="voice-toggle" title="Toggle AI Voice Recognition commands">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mic"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+          </button>
+
+          <!-- Dark/Light mode toggle -->
+          <button class="control-btn" id="theme-toggle" title="Change Visual Palette Theme">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M22 12h-2"/><path d="M4 12H2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+          </button>
+
+          <!-- Language Selector -->
+          <select class="selector-dropdown" id="lang-select" title="Toggle system localization">
+            <option value="en" selected>EN</option>
+            <option value="es">ES</option>
+            <option value="de">DE</option>
+            <option value="ja">JA</option>
+          </select>
+
+          <!-- Role selection auth level -->
+          <select class="selector-dropdown" id="role-select" title="Modify session operations authorizations scale">
+            <option value="administrator" selected>Admin (Root)</option>
+            <option value="analyst">Analyst</option>
+            <option value="manager">Manager</option>
+          </select>
+
+          <!-- System lockdown button -->
+          <button class="emergency-lockdown-btn" id="emergency-lockdown">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+            Emergency Lockdown
+          </button>
+
+          <!-- User display -->
+          <div class="user-profile">
+            <div class="user-avatar">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#bd00ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-cog" style="padding: 4px;"><circle cx="18" cy="15" r="3"/><circle cx="9" cy="7" r="4"/><path d="M10 15H2a5 5 0 0 1 9.55-2.07"/><path d="M20 19v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1"/><path d="M14 15h2"/><path d="M18 11.5V13"/><path d="M18 17v1.5"/></svg>
+            </div>
+            <div class="user-info">
+              <span class="user-name">Root Officer</span>
+              <span class="user-role-lbl" id="role-desc-label">Class-A Administrator Role</span>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+      <!-- Viewports container -->
+      <div class="dashboard-viewport">
+
+        <!-- VIEW 1: MASTER AI SECURITY DASHBOARD -->
+        <div class="dashboard-panel active" id="home-panel">
+          
+          <!-- Top Floating Stats Cards -->
+          <div class="home-grid">
+            <div class="glance-card">
+              <div class="glance-icon-box cyan-glow">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+              <div class="glance-info">
+                <span class="glance-value" id="score-number">89</span>
+                <span class="glance-label">Overall Health</span>
+                <span class="glance-change change-up">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><line x1="7" x2="17" y1="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>+1.2%
+                </span>
+              </div>
+            </div>
+
+            <div class="glance-card">
+              <div class="glance-icon-box red-glow">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-alert"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+              </div>
+              <div class="glance-info">
+                <span class="glance-value" id="active-threats-num">14</span>
+                <span class="glance-label">Active Threats</span>
+                <span class="glance-change change-down">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down-left"><line x1="17" x2="7" y1="7" y2="17"/><polyline points="17 17 7 17 7 7"/></svg>-2 instances
+                </span>
+              </div>
+            </div>
+
+            <div class="glance-card">
+              <div class="glance-icon-box purple-glow">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-2"><path d="M14 19a6 6 0 0 0-12 0"/><circle cx="8" cy="9" r="4"/><path d="M22 19a6 6 0 0 0-6-3h-1"/><circle cx="19" cy="8" r="2"/></svg>
+              </div>
+              <div class="glance-info">
+                <span class="glance-value" id="compromised-num">2</span>
+                <span class="glance-label">Anomalous logins</span>
+                <span class="glance-change change-up" style="color:var(--neon-green)">HEALTHY</span>
+              </div>
+            </div>
+
+            <div class="glance-card">
+              <div class="glance-icon-box green-glow">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+              </div>
+              <div class="glance-info">
+                <span class="glance-value" id="days-value">242</span>
+                <span class="glance-label">Breach-Free Days</span>
+                <span class="glance-change change-up">INTEGRITY OK</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Middle graphs section -->
+          <div class="dash-middle-grid">
+            <div class="cyber-widget draggable" id="widget-threat-trends">
+              <div class="widget-header">
+                <span class="widget-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                  Real-time Neural Scan traffic Analytics
+                </span>
+                <div class="widget-controls">
+                  <button class="widget-action-btn" title="Draggable Widget Overlay">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-grip-horizontal"><circle cx="12" cy="9" r="1"/><circle cx="19" cy="9" r="1"/><circle cx="5" cy="9" r="1"/><circle cx="12" cy="15" r="1"/><circle cx="19" cy="15" r="1"/><circle cx="5" cy="15" r="1"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="radar-graph-holder">
+                <canvas id="live-network-chart"></canvas>
+              </div>
+            </div>
+
+            <div class="cyber-widget draggable" id="widget-security-score">
+              <div class="widget-header">
+                <span class="widget-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  Integrity score Assessment
+                </span>
+              </div>
+              <div class="score-flex-box">
+                <svg class="radial-progress-svg" viewBox="0 0 180 180">
+                  <defs>
+                    <linearGradient id="cyan-purple-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="var(--neon-purple)" />
+                      <stop offset="100%" stop-color="var(--neon-cyan)" />
+                    </linearGradient>
+                  </defs>
+                  <circle class="radial-progress-bg" cx="90" cy="90" r="80"></circle>
+                  <circle class="radial-progress-fill" cx="90" cy="90" r="80"></circle>
+                </svg>
+                <div class="score-center-text">
+                  <div class="score-number" id="score-number">89</div>
+                  <div class="score-lbl">System Robustness</div>
+                </div>
+                <div class="score-health-desc">SECURE OPERATION</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alert feed and Timeline -->
+          <div class="dash-bottom-grid">
+            <div class="cyber-widget">
+              <div class="widget-header">
+                <span class="widget-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-ring"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/><path d="M22 5c0 4-4 7-9 7"/></svg>
+                  Active Threat Incidents Queue
+                </span>
+              </div>
+              <div class="alert-feed-container" id="alert-feed">
+                <!-- Javascript will inject list indicators here -->
+              </div>
+            </div>
+
+            <div class="cyber-widget">
+              <div class="widget-header">
+                <span class="widget-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list-todo"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" x2="15" y1="9" y2="9"/><line x1="9" x2="15" y1="13" y2="13"/><line x1="9" x2="15" y1="17" y2="17"/></svg>
+                  Security Operations (SOC) Log Activity
+                </span>
+              </div>
+              <div class="event-timeline" id="timeline-feed">
+                <!-- Javascript Timeline updates -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- VIEW 2: AI NETWORK MONITORING -->
+        <div class="dashboard-panel" id="network-panel">
+          <div class="network-map-flex">
+            
+            <div class="net-map-box">
+              <canvas id="network-map-canvas" class="net-map-canvas"></canvas>
+              <div class="map-nav-stats">
+                <div class="map-mini-indicator">
+                  <div class="scanning-led-pulse"></div>
+                  <span>LIVE TRAFFIC STREAM ACTIVE</span>
+                </div>
+                <div class="map-mini-indicator">
+                  <span>PACKETS BLOCK RATE: 99.82%</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="cyber-widget devices-tree-wrapper">
+              <div class="widget-header">
+                <span class="widget-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-network"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M12 8v4"/><path d="M12 12H5v4"/><path d="M12 12h7v4"/></svg>
+                  Intranet Nodes Topography
+                </span>
+              </div>
+              <p style="font-size:11px; color:var(--text-secondary); margin-bottom:12px;">Pulsing nodes indicate continuous heartbeat. Red indicates isolation required.</p>
+              <div class="devices-canvas-holder">
+                <canvas id="devices-map-canvas"></canvas>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- VIEW 3: AI THREAT DETECTION -->
+        <div class="dashboard-panel" id="threats-panel">
+          <div class="threat-view-grid">
+            
+            <div class="cyber-widget">
+              <div class="widget-header">
+                <span class="widget-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  Quarantine Countermeasures
+                </span>
+              </div>
+              <div class="mitigation-controls-panel">
+                <p style="font-size:11.5px; color:var(--text-secondary); margin-bottom:10px;">Toggle automated firewalls to disconnect hosts immediately from central data pools.</p>
+                
+                <div class="iso-system-check">
+                  <div class="iso-details">
+                    <span class="iso-host">Mainframe REST Gateway</span>
+                    <span class="iso-ip">10.0.1.72</span>
+                  </div>
+                  <label class="switch-btn-element iso-warn">
+                    <input type="checkbox">
+                    <span class="switch-slider"></span>
+                  </label>
+                </div>
+
+                <div class="iso-system-check">
+                  <div class="iso-details">
+                    <span class="iso-host">API Node 03 (Shenzhen)</span>
+                    <span class="iso-ip">180.220.10.45</span>
+                  </div>
+                  <label class="switch-btn-element iso-warn">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </div>
+
+                <div class="iso-system-check">
+                  <div class="iso-details">
+                    <span class="iso-host">Smart Lab IoT Gateway</span>
+                    <span class="iso-ip">192.168.100.8</span>
+                  </div>
+                  <label class="switch-btn-element iso-warn">
+                    <input type="checkbox">
+                    <span class="switch-slider"></span>
+                  </label>
+                </div>
+
+                <div class="iso-system-check">
+                  <div class="iso-details">
+                    <span class="iso-host">Partner Portal VPN Router</span>
+                    <span class="iso-ip">172.16.82.91</span>
+                  </div>
+                  <label class="switch-btn-element iso-warn">
+                    <input type="checkbox">
+                    <span class="switch-slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="cyber-widget">
+              <div class="widget-header">
+                <span class="widget-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-terminal"><polygon points="5 3 19 12 5 21 5 3"/><line x1="12" x2="19" y1="19" y2="19"/></svg>
+                  Neural Analytics - Packet Inspector Flow
+                </span>
+                <div class="scanning-led-pulse"></div>
+              </div>
+              <div class="terminal-box" id="terminal-view-host" style="height: 190px;">
+                <div class="terminal-line"><span class="terminal-prompt">$></span> CyberShield AI kernel module initialized.</div>
+                <div class="terminal-line"><span class="terminal-prompt">$></span> Syncing vulnerability advisory catalogs (CVE-2026)...</div>
+                <div class="terminal-line"><span class="terminal-prompt">$></span> Connected nodes established. Commencing inspection sweep.</div>
+                <!-- Log entries streaming -->
+              </div>
+              <div class="chatbot-input-bar" style="border-top:1px solid rgba(255,255,255,0.05); padding-top:10px; margin-top:10px; display:flex;">
+                <input type="text" class="chatbot-input" id="terminal-cli-input" placeholder="Type scanner CLI command (try 'help', 'nmap', 'crack', 'mine', or 'clear')..." autocomplete="off" style="font-family: var(--font-mono); font-size:11px;">
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- VIEW 4: ENDPOINT PROTECTION -->
+        <div class="dashboard-panel" id="endpoints-panel">
+          <div class="cyber-widget">
+            <div class="widget-header">
+              <span class="widget-title">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-laptop"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+                Node Device Registry Health & Compliance Logs
+              </span>
+            </div>
+            
+            <table class="grid-table">
+              <thead>
+                <tr>
+                  <th>Host Device Name</th>
+                  <th>IP Address</th>
+                  <th>Operating System</th>
+                  <th>Vulnerability Metric</th>
+                  <th>Antivirus Status</th>
+                  <th>Compliance Profile</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>SOC-WORKSTATION-01</td>
+                  <td>10.0.4.10</td>
+                  <td>Windows 11 Enterprise</td>
+                  <td><span class="badge badge-green">0 CVEs</span></td>
+                  <td><span class="badge badge-green">Active</span></td>
+                  <td><span class="badge badge-cyan">Compliant</span></td>
+                </tr>
+                <tr>
+                  <td>SOC-WORKSTATION-02 (Ransomware Signatures)</td>
+                  <td>10.0.4.11</td>
+                  <td>Windows 11 Enterprise</td>
+                  <td><span class="badge badge-red">2 Severe</span></td>
+                  <td><span class="badge badge-red">ISOLATED</span></td>
+                  <td><span class="badge badge-red">NON-COMPLIANT</span></td>
+                </tr>
+                <tr>
+                  <td>STAGING-LINUX-SRV</td>
+                  <td>10.0.12.8</td>
+                  <td>Ubuntu 24.04 LTS</td>
+                  <td><span class="badge badge-yellow">4 Low</span></td>
+                  <td><span class="badge badge-green">Active</span></td>
+                  <td><span class="badge badge-cyan">Compliant</span></td>
+                </tr>
+                <tr>
+                  <td>AUTH-KEYS-VAULT</td>
+                  <td>10.2.14.7</td>
+                  <td>Red Hat Enterprise Linux</td>
+                  <td><span class="badge badge-green">0 CVEs</span></td>
+                  <td><span class="badge badge-green">Active</span></td>
+                  <td><span class="badge badge-cyan">Compliant</span></td>
+                </tr>
+                <tr>
+                  <td>PARTNER-DEV-THINKPAD</td>
+                  <td>172.16.80.34</td>
+                  <td>Windows 10 Pro</td>
+                  <td><span class="badge badge-yellow">1 Medium</span></td>
+                  <td><span class="badge badge-green">Active</span></td>
+                  <td><span class="badge badge-yellow">Exemption Expired</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- VIEW 5: IDENTITY & ACCESS SECURITY -->
+        <div class="dashboard-panel" id="identity-panel">
+          <div class="cyber-widget">
+            <div class="widget-header">
+              <span class="widget-title">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-fingerprint"><path d="M2 12a10 10 0 0 1 13-9.54"/><path d="M22 12a10 10 0 0 1-13 9.54"/><path d="M12 2a10 10 0 0 1 0 20"/><path d="M12 6a6 6 0 0 1 0 12"/><path d="M12 10a2 2 0 0 1 0 4"/><path d="M8.5 8.5a5 5 0 0 1 7 0"/><path d="M5.5 5.5a9 9 0 0 1 13 0"/></svg>
+                Identity Audits - User Session Analytics
+              </span>
+            </div>
+
+            <table class="grid-table">
+              <thead>
+                <tr>
+                  <th>Target User Account</th>
+                  <th>Authentication Status</th>
+                  <th>Session Activity</th>
+                  <th>IP Geographic Vector</th>
+                  <th>Risk Anomaly Factor</th>
+                  <th>Action Countermeasure</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>admin@cybershield.corp</td>
+                  <td><span class="badge badge-green">SAML MFA Verified</span></td>
+                  <td>Dashboard Web Console</td>
+                  <td>94.20.100.80 (Frankfurt, DE)</td>
+                  <td style="color:var(--neon-green)">1% Normal</td>
+                  <td><span class="badge badge-cyan">Session Monitored</span></td>
+                </tr>
+                <tr>
+                  <td>analyst_brian@cybershield.corp</td>
+                  <td><span class="badge badge-green">SAML MFA Verified</span></td>
+                  <td>Threat intelligence lookup</td>
+                  <td>102.50.81.2 (London, UK)</td>
+                  <td style="color:var(--neon-green)">4% Normal</td>
+                  <td><span class="badge badge-cyan">Session Monitored</span></td>
+                </tr>
+                <tr>
+                  <td>vpn_agent_external@cybershield.corp</td>
+                  <td><span class="badge badge-red">MFA FAILURE SHIELD</span></td>
+                  <td>Access API Database Gateway</td>
+                  <td>80.82.77.10 (Moscow, RU)</td>
+                  <td style="color:var(--neon-red)">92% CRITICAL ALERT</td>
+                  <td><span class="badge badge-red">ACCOUNT SHUTDOWN</span></td>
+                </tr>
+                <tr>
+                  <td>iot_sensor_agent_09</td>
+                  <td><span class="badge badge-cyan">Public Key Pass</span></td>
+                  <td>Telemetry push logs</td>
+                  <td>Inside SmartLab Hub</td>
+                  <td style="color:var(--neon-yellow)">35% Low Anomaly</td>
+                  <td><span class="badge badge-cyan">Session Monitored</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- VIEW 6: AUTOMATION CENTER -->
+        <div class="dashboard-panel" id="automations-panel">
+          <div class="card-flex">
+            
+            <div class="policy-card">
+              <div class="policy-top">
+                <span class="policy-title">Block Malware Command Centers</span>
+                <span class="policy-desc">Inspect all outgoing logs and automatically drop sessions redirecting to IP servers known to host Trojan networks.</span>
+              </div>
+              <div class="policy-bottom">
+                <span style="font-size:11px; color:var(--neon-green); font-family:var(--font-mono);">SYNCED WITH CYBER THREAT FEED</span>
+                <label class="switch-btn-element">
+                  <input type="checkbox" checked>
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="policy-card">
+              <div class="policy-top">
+                <span class="policy-title">Quarantine ransomware</span>
+                <span class="policy-desc">Instantly restrict interface networking channels on workstation endpoints generating local crypt-locking executions.</span>
+              </div>
+              <div class="policy-bottom">
+                <span style="font-size:11px; color:var(--neon-red); font-family:var(--font-mono);">ELEVATED RISK CONTROL</span>
+                <label class="switch-btn-element">
+                  <input type="checkbox" checked>
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="policy-card">
+              <div class="policy-top">
+                <span class="policy-title">USB Port restrictions</span>
+                <span class="policy-desc">Disable local mass storage execution systems on core database host computers to block insider hardware theft.</span>
+              </div>
+              <div class="policy-bottom">
+                <span style="font-size:11px; color:var(--text-secondary); font-family:var(--font-mono);">POLICY REGISTERED</span>
+                <label class="switch-btn-element">
+                  <input type="checkbox">
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- VIEW 7: GLOBAL INTEL CVE FEEDS -->
+        <div class="dashboard-panel" id="intelligence-panel">
+          <div class="threat-intel-grid">
+            
+            <div class="cyber-widget">
+              <div class="widget-header">
+                <span class="widget-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-terminal"><polygon points="5 3 19 12 5 21 5 3"/><line x1="12" x2="19" y1="19" y2="19"/></svg>
+                  NVD CVE Database Feeds (July 2026 Sync)
+                </span>
+              </div>
+              <div class="cve-item">
+                <div class="cve-header">
+                  <span class="cve-id" style="color:var(--neon-red)">CVE-2026-8801 - Docker Route Intrusion</span>
+                  <span class="badge badge-red">CVSS 9.8</span>
+                </div>
+                <div class="cve-desc">Remote execution payload vulnerability located inside port-routing network daemons. Bypasses host whitelist verification. Patch package patchset-7.14 available.</div>
+              </div>
+
+              <div class="cve-item">
+                <div class="cve-header">
+                  <span class="cve-id" style="color:var(--neon-yellow)">CVE-2026-4012 - OpenSSL Buffer Leak</span>
+                  <span class="badge badge-yellow">CVSS 7.5</span>
+                </div>
+                <div class="cve-desc">Buffer overflow located during client certification handshake processing. Allows leakage of private memory bytes to endpoints.</div>
+              </div>
+
+              <div class="cve-item">
+                <div class="cve-header">
+                  <span class="cve-id" style="color:var(--neon-cyan)">CVE-2026-1029 - PostgreSQL Key Exchange</span>
+                  <span class="badge badge-cyan">CVSS 5.3</span>
+                </div>
+                <div class="cve-desc">Weak entropy generation located during encrypted database handshake initialization. Recommending upgrading Postgres database image builds.</div>
+              </div>
+            </div>
+
+            <div class="cyber-widget">
+              <div class="widget-header">
+                <span class="widget-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-database"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>
+                  SIEM & Log Integrity Auditing
+                </span>
+              </div>
+              <p style="font-size:11.5px; color:var(--text-secondary); margin-bottom:12px;">Audits checked via decentralized node consensus to guarantee immutable log tracking.</p>
+              
+              <div class="iso-system-check" style="margin-bottom:10px;">
+                <div class="iso-details">
+                  <span class="iso-host">Static Node Key Validation</span>
+                  <span class="iso-ip" style="font-size:10px;">SHA256 Encrypted Hash Chains Match</span>
+                </div>
+                <span class="badge badge-green">VERIFIED</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- VIEW 9: CYBER COMMAND BRIDGE (ADVANCED TECH) -->
+        <div class="dashboard-panel" id="cybercommand-panel">
+          
+          <!-- Cloud & IoT Security Widgets Grid -->
+          <div class="cloud-iot-layout">
+            <div class="cloud-node-chip">
+              <div class="cloud-chip-header">
+                <span>AWS EC2 INSTANCE</span>
+                <span style="color:var(--neon-green)">HEALTHY</span>
+              </div>
+              <div class="cloud-chip-title">AWS-US-EAST-MAIN</div>
+              <div class="cloud-chip-metrics">CPU: 24% | Memory: 4.8 / 16 GB</div>
+            </div>
+
+            <div class="cloud-node-chip danger">
+              <div class="cloud-chip-header">
+                <span>KUBERNETES CONTAINER</span>
+                <span style="color:var(--neon-red)">PORT ANOMALY</span>
+              </div>
+              <div class="cloud-chip-title">K8S-DE-POD-09</div>
+              <div class="cloud-chip-metrics">CPU: 94% | Active Intrusion Signature</div>
+            </div>
+
+            <div class="cloud-node-chip">
+              <div class="cloud-chip-header">
+                <span>AZURE SQL SERVER</span>
+                <span style="color:var(--neon-green)">HEALTHY</span>
+              </div>
+              <div class="cloud-chip-title">AZ-DB-REPLICA-02</div>
+              <div class="cloud-chip-metrics">Connections: 142 active | Latency: 4ms</div>
+            </div>
+          </div>
+
+          <div class="command-console-grid">
+            
+            <!-- Digital Memory Carver Widget -->
+            <div class="cyber-widget tech-corners">
+              <div class="widget-header">
+                <span class="widget-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cpu"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M9 1v3"/><path d="M15 1v3"/><path d="M9 20v3"/><path d="M15 20v3"/><path d="M20 9h3"/><path d="M20 15h3"/><path d="M1 9h3"/><path d="M1 15h3"/></svg>
+                  Digital Forensics Memory Carver
+                </span>
+              </div>
+              <p style="font-size:11px; color:var(--text-secondary); margin-bottom:12px;">Extract file sectors and inspect process execution structures dynamically from RAM heaps.</p>
+              
+              <div style="margin-bottom:15px;">
+                <button class="login-btn" id="forensics-carve-btn" style="margin-top:0">CARVE WORKSTATION VOLATILE MEMORY</button>
+              </div>
+
+              <!-- Sleek Progress Bar -->
+              <div style="background-color:rgba(255,255,255,0.06); height:6px; border-radius:3px; overflow:hidden; margin-bottom:15px; border:1px solid rgba(255,255,255,0.1)">
+                <div id="forensics-progress-fill" style="width:0%; height:100%; background:linear-gradient(90deg, var(--neon-cyan), var(--neon-purple)); transition:width 0.2s ease;"></div>
+              </div>
+
+              <div class="terminal-box" id="forensics-terminal-output" style="height:170px;">
+                <div class="terminal-line"><span class="terminal-prompt">$></span> Forensic core loaded. Waiting for trigger instruction...</div>
+              </div>
+            </div>
+
+            <!-- Yara Rules Analyzer Sandbox -->
+            <div class="cyber-widget tech-corners">
+              <div class="widget-header">
+                <span class="widget-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-code"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                  Threat Hunting Yara Compiler Rules Analyzer
+                </span>
+              </div>
+              <p style="font-size:11px; color:var(--text-secondary); margin-bottom:8px;">Write custom heuristic signature blocks to parse memory structures for zero-days.</p>
+              
+              <!-- Yara Editor Simulated Code -->
+              <div style="background:rgba(0,0,0,0.6); padding:10px; font-family:var(--font-mono); font-size:11px; color:var(--text-muted); border-radius:6px; border:1px solid rgba(255,255,255,0.08); margin-bottom:12px; line-height:1.4;">
+                <span style="color:var(--neon-purple)">rule</span> Trojan_Memory_Signature {<br>
+                &nbsp;&nbsp;<span style="color:var(--neon-cyan)">strings:</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;$payload = <span style="color:var(--neon-green)">"winlogon-stub.exe"</span> ascii wide<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;$md5 = <span style="color:var(--neon-green)">"4e88a1bcf9017a"</span><br>
+                &nbsp;&nbsp;<span style="color:var(--neon-cyan)">condition:</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;any of them<br>
+                }
+              </div>
+
+              <div style="display:flex; gap:15px; align-items:center;">
+                <button class="mitigate-action-btn" id="yara-compile-btn" style="padding:10px 16px;">COMPILE & SCAN INTRANET</button>
+                <div id="yara-scan-alert" style="flex:1; border:1px solid rgba(255,255,255,0.08); border-radius:4px; font-size:10px; font-family:var(--font-mono); padding:8px; min-height:30px; display:flex; align-items:center;">
+                  Waiting for compile...
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Blockchain immutable log vault ledger -->
+          <div class="cyber-widget tech-corners">
+            <div class="widget-header">
+              <span class="widget-title">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-database"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>
+                Immutable SIEM Security blockchain integrity blocks ledger
+              </span>
+              <div class="widget-controls">
+                <button class="mitigate-action-btn" id="blockchain-mine-btn">MINE BLOCK MANUALLY</button>
+              </div>
+            </div>
+            <p style="font-size:11px; color:var(--text-secondary); margin-bottom:12px;">Blocks mine dynamically every 10 seconds. Each node contains cryptographic ledger values proving audits haven't been tampered.</p>
+            <div class="blockchain-ledgers-wrapper" id="blockchain-ledger-container">
+              <!-- Dynamically built cubes -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- VIEW 8: GENERAL REPORTS & AUDITS -->
+        <div class="dashboard-panel" id="reports-panel">
+          <div class="reports-layout">
+            
+            <div class="preset-col">
+              <div class="report-preset-card active" data-type="dailyCount">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+                <div class="report-preset-info">
+                  <span class="preset-name">Daily SOC Intrusion Report</span>
+                  <span class="preset-desc">Summary of active scans, virus detections and isolated nodes inside 24h.</span>
+                </div>
+              </div>
+
+              <div class="report-preset-card" data-type="weeklyCount">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-days"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>
+                <div class="report-preset-info">
+                  <span class="preset-name">Weekly Compliance Log</span>
+                  <span class="preset-desc">ISO27001 mapping audit, login ratios, and host exception tracking.</span>
+                </div>
+              </div>
+
+              <div class="report-preset-card" data-type="complianceDoc">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check"><path d="M20 13c0 5-3.5 7.5-7.66 9.7a1 1 0 0 1-.68 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 .76-.97l8-2a1 1 0 0 1 .48 0l8 2A1 1 0 0 1 20 6v7z"/><path d="m9 12 2 2 4-4"/></svg>
+                <div class="report-preset-info">
+                  <span class="preset-name">Regulatory Regulatory Compliance</span>
+                  <span class="preset-desc">Blockchain hash audits and compliance score summaries.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Report view -->
+            <div class="cyber-widget">
+              <div class="report-preview-pane">
+                <div class="report-header-preview">
+                  <h2 style="color: #fff;">DAILY THREAT MITIGATION SUMMARY REPORT</h2>
+                  <span class="report-meta-preview">COMPILED BY: CYBERSHIELD AI v4.2 | DATE: July 9, 2026 | LEVEL: PROTECTED</span>
+                </div>
+                
+                <span class="report-summary-title">Executive Summary</span>
+                <p class="report-body-text">Anomalous endpoint vectors detected during normal shift activity. AI behavioral threat model successfully identified and quarantined 12 port scanner queries and neutralized 1 brute-force attack originating from external gateways. Firewall routing rules modified dynamically. Overall risk score stabilized at standard operational levels.</p>
+
+                <span class="report-summary-title">AI Recommendations</span>
+                <p class="report-body-text">1. Audit root keystores for admin portal account access.<br>2. Cycle credentials on rest-gateway nodes.<br>3. Verify integrity of Docker config container templates.</p>
+              </div>
+
+              <div class="report-export-controls">
+                <button class="export-btn" id="export-excel">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sheet"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                  Export CSV / Excel
+                </button>
+                <button class="export-btn btn-primary-export" id="export-pdf">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-down"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h8"/><path d="M8 17h8"/><path d="M14 9H8"/></svg>
+                  Export PDF Report
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Chatbot Floating Controls -->
+  <button class="floating-chat-trigger" id="chatbot-trigger" title="Ask Cybershield AI assistant">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bot"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+  </button>
+
+  <!-- Bot panel drawer overlay -->
+  <div class="chatbot-drawer" id="chatbot-drawer">
+    <div class="chatbot-header">
+      <span class="chatbot-title">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square-code"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="m10 8-2 2 2 2"/><path d="m14 8 2 2-2 2"/></svg>
+        AI SOC Assistant
+      </span>
+      <button class="widget-action-btn" id="chat-close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+      </button>
+    </div>
+    
+    <div class="chatbot-chat-area" id="chatbot-area">
+      <div class="chat-msg chat-msg-agent">
+        Greetings Admin. I am your neural operations buddy. Ask me about scans, CVE vectors, isolation procedures, or security ratings.
+      </div>
+    </div>
+
+    <div class="chatbot-input-bar">
+      <input type="text" class="chatbot-input" id="chat-input" placeholder="Query active threat metrics..." autocomplete="off">
+      <button class="chatbot-send-btn" id="chat-send">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-horizontal"><path d="m3 3 3 9-3 9 19-9Z"/><path d="M6 12h16"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Audio synthesizers Script links -->
+  <script src="audio_effects.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
